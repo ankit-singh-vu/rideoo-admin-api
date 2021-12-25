@@ -1,0 +1,84 @@
+﻿const express = require('express');
+const router = express.Router();
+const userService = require('../service/rider.service');
+
+// routes
+// router.post('/admin-sign-up', register);
+router.post('/admin-authenticate', authenticate);
+router.post('/create', create);
+
+router.get('/', getAll);
+router.get('/search', search);
+// router.get('/hi', hi);
+router.get('/current', getCurrent);
+router.get('/:id', getById);
+router.put('/:id', update);
+router.delete('/:id', _delete);
+router.delete('/soft-delete/:id', soft_delete);
+module.exports = router;
+
+function authenticate(req, res, next) {
+    userService.authenticate(req.body)
+        .then(user => user ? res.json(user) : res.status(400).json({ message: 'email or password is incorrect' }))
+        .catch(err => next(err));
+}
+
+function create(req, res, next) {
+    userService.create(req.body)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
+
+function getAll(req, res, next) {
+    userService.getAll(req)
+        .then(users => res.json(users))
+        .catch(err => next(err));
+}
+
+function search(req, res, next) {
+    userService.search(req.body)
+        .then(users => res.json(users))
+        .catch(err => next(err));
+}
+
+// function hi(req, res, next) {
+//     userService.getAll()
+//         .then(users => res.json(users))
+//         .catch(err => next(err));
+//     // res.send('Hi!')
+// // process.exit();
+// }
+
+function getCurrent(req, res, next) {
+    userService.getById(req.user.sub)
+        .then(user => user ? res.json(user) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
+function getById(req, res, next) {
+    userService.getById(req.params.id)
+        .then(user => user ? res.json(user) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
+
+function update(req, res, next) {
+    userService.update(req.params.id, req.body)
+        .then(() => res.json({}))
+        // .then(user => user ? res.json(user) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
+
+function _delete(req, res, next) {
+    userService.delete(req.params.id)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
+
+function soft_delete(req, res, next) {
+    userService.soft_delete(req.params.id)
+        // .then(() => res.json({}))
+        .then(user => user ? res.json(user) : res.sendStatus(404))
+        .catch(err => next(err));
+}

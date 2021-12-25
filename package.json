@@ -1,0 +1,26 @@
+{
+    "name": "admin-api",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "node ./server.js",
+        "dev": "nodemon ./server.js"
+    },
+    "dependencies": {
+        "aws-sdk": "^2.986.0",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "express-fileupload": "^1.2.1",
+        "express-jwt": "^6.0.0",
+        "jsonwebtoken": "^8.5.1",
+        "moment": "^2.29.1",
+        "mongodb": "^3.5.9",
+        "mongoose": "^5.9.21",
+        "rootpath": "^0.1.2"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.12"
+    }
+}
